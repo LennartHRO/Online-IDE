@@ -31,10 +31,10 @@ public class ProjectApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		log.info("DataSource = " + dataSource);
 
-		Project project = projectService.createProject(new Project("my-project"));
-		log.info("ID of saved project = " + project.getId());
+		//Project project = projectService.createProject(new Project("my-project3"));
+		//log.info("ID of saved project = " + project.getId());
 
-		Project p = projectService.findByName("my-project");
+		Project p = projectService.findByName("my-project2");
 		log.info("ID of queried project = " + p.getId());
 
 		List<Project> projects = projectService.getProjects();

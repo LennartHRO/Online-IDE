@@ -3,6 +3,12 @@ package edu.tum.ase.project.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "projects")
@@ -15,6 +21,10 @@ public class Project {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<SourceFile> sourceFiles = new ArrayList<>();
 
     // ... additional members, often include @OneToMany mappings
 
