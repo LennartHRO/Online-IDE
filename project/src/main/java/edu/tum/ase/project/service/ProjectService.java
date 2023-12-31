@@ -3,6 +3,7 @@ package edu.tum.ase.project.service;
 import edu.tum.ase.project.model.Project;
 import edu.tum.ase.project.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +29,12 @@ public class ProjectService {
         return projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Invalid projectId:" + projectId));
     }
 
-    public void deleteProject(Project project) {
+    public void deleteProject(String projectId) {
+        // Check if the project exists
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid projectId: " + projectId));
+
+        // Delete the project
         projectRepository.delete(project);
     }
 
@@ -36,9 +42,20 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public void updateProject(Project project) {
-        
+    public Project getProject(String projectId){
+        return findById(projectId);
     }
 
+    public Project updateProject(String projectId, Project updatedProject) {
+        // Find the existing project by ID
+        Project existingProject = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid projectId: " + projectId));
+
+        // Update the existing project with the new values
+        existingProject.setName(updatedProject.getName());
+
+        // Save the updated project
+        return projectRepository.save(existingProject);
+    }
 
 }

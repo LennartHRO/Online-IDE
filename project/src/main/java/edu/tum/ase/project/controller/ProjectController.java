@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/project")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProjectController {
 
     @Autowired
@@ -21,21 +22,26 @@ public class ProjectController {
         return projectService.getProjects();
     }
 
+    @GetMapping("/{id}")
+    public Project getProject(@PathVariable("id") String projectId){
+        return projectService.getProject(projectId);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable("id") String projectId){
-        Project project = projectService.findById(projectId);
-        projectService.deleteProject(project);
+        projectService.deleteProject(projectId);
     }
 
     @PostMapping("/")
     public Project createProject(@RequestBody Project project){
         return projectService.createProject(project);
     }
-    /*
-    TODO: UpdateProject
-    @RequestMapping(path = "/api/projects", method = RequestMethod.PUT)
-    public void updateProject(@RequestBody Project project) {
-        projectService.updateProject(project);
+
+    @PutMapping("/{id}")
+    public Project updateProject(@PathVariable("id") String projectId, @RequestBody Project updatedProject) {
+        return projectService.updateProject(projectId, updatedProject);
     }
-    */
+
+
+
 }
