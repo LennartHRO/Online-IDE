@@ -1,0 +1,71 @@
+<body class="background d-flex align-items-center justify-content-center">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1>Projects</h1>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Project Name</th>
+                            <th></th>
+                            <th>Users</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let project of projects">
+                            <td>{{ project.id }}</td>
+                            <td>
+                                {{ project.name }}   
+                                
+                            </td>
+                            <td><button class="btn btn-sm btn-secondary btn-rename" (click)="editProjectName(project)">Rename</button></td>
+                            <td>1</td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary" (click)="openProject(project)">Open</button>
+                                <button class="btn btn-sm btn-secondary" (click)="deleteProject(project)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="input-group mt-3">
+                    <input [(ngModel)]="newProjectName" class="form-control"
+                        placeholder="New Project Name">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary create-button"
+                            (click)="createProject()">Create</button>
+                    </div>
+                </div>
+
+                <!-- Angular Bootstrap Modal for editing project name -->
+                <ng-template #editProjectModal let-modal>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Project Name</h4>
+                        <button type="button" class="close"
+                            (click)="modal.dismiss()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input [(ngModel)]="editedProjectName"
+                            class="form-control"
+                            placeholder="New Project Name">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary"
+                            (click)="modal.dismiss()">Close</button>
+                        <button type="button" class="btn btn-primary"
+                            (click)="saveEditedProject()">Save changes</button>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+

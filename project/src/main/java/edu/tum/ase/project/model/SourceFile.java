@@ -13,7 +13,7 @@ public class SourceFile {
     @Column(name = "source_file_id")
     private String sourceFileId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 

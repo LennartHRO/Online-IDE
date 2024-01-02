@@ -1,0 +1,132 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.nav-link {
+    color: #2f5f99;
+    /* Set text color to tum blue */
+    font-size: 2rem;
+}
+
+body.background {
+    background-color: #20252A;
+    /* Set the desired black background color for the body */
+    color: #fff;
+    /* Set text color to white for better contrast */
+}
+
+.container-fluid {
+    height: 100%;
+}
+
+.row {
+    height: 100%;
+}
+
+.sidebar {
+    background-color: #072140;
+    /* Set the desired background color for the sidebar */
+    padding: 20px;
+    /* Add padding for better visual appeal */
+    color: #ffffff;
+    /* Set text color for elements inside the sidebar */
+}
+
+.heading{
+    color: #ffffff;
+    /* Set text color to tum blue */
+    font-size: 2.5rem;
+}
+
+.sidebar button {
+    width: 100%;
+    /* Make buttons full width within the sidebar */
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+}
+
+.top-bar{
+    background-color: #3c454e;
+    padding: 1rem;
+    }
+.code-box{
+    flex: 2;
+}
+
+.output-box{
+    padding: 6rem;
+    background-color: #3c454e;
+    position: relative;
+}
+
+.output-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Additional styling as needed */
+}
+
+.font-sourceFiles {
+    font-size: 0.7em;
+}
+
+.font-user {
+    font-size: 1.5em;
+}
+
+.custom-hover:hover {
+    background-color: #082b55;;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8em;
+    color: #c7c7c7;
+}
+
+.icon-button:hover {
+    cursor: pointer;
+}
+
+.file-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: #2f5f99;
+}
+
+.modal-header {
+    background-color: #072140;
+    /* Set background color for modal header */
+    color: #ffffff;
+    /* Set text color for modal header */
+}
+
+.modal-body,
+.modal-footer {
+    background-color: #ffffff;
+    /* Set background color for modal body and footer */
+}
+
+.modal-footer button {
+    color: #072140;
+    /* Set text color for modal footer buttons */
+}
+
+.modal-footer button.btn-primary {
+    background-color: #072140;
+    /* Set background color for the primary button in the modal footer */
+    color: #ffffff;
+    border-color: #072140;
+}

@@ -1,0 +1,158 @@
+<head>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+</head>
+<body class="background">
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div
+                    class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a 
+                        class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline"> <div
+                                class="heading"> {{ project.name}} </div>
+                        </span>
+                    </a>
+                    <ul
+                        class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+                        id="menu">
+                        <tr *ngFor="let sourceFile of (sourceFiles)">
+                            <a
+                                class="nav-link px-0 pt-0 pb-0 align-middle custom-hover">
+                                <span
+                                    class="ms-1 d-none d-sm-inline font-sourceFiles">
+                                    <button class="file-button"
+                                        (click)="openFile(sourceFile.sourceFileId)">
+                                        <i class="bi bi-file-code"></i>
+                                        {{ sourceFile.fileName }}
+                                    </button>
+                                    <button class="icon-button px-3"
+                                        (click)="openEditFileModal(sourceFile)"
+                                        title="Edit Name">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="icon-button"
+                                        (click)="deleteSourceFile(sourceFile.sourceFileId)"
+                                        title="Delete File">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                </span>
+                            </a>
+                        </tr>
+                        <li>
+                            <a data-bs-toggle="collapse"
+                                class="nav-link px-0 align-middle"
+                                (click)="openNewFileModal()"> 
+
+                                <span
+                                    class="ms-1 d-none d-sm-inline font-sourceFiles icon-button">
+                                    <i class="bi bi-plus-circle"></i>
+                                    New file
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <hr>
+
+                    <div class="dropdown pb-4">
+                        <a
+                            class="d-flex align-items-center text-white text-decoration-none">
+                            <img
+                                src="data:image/jpeg;base64,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"
+                                alt="hugenerd" width="50" height="50"
+                                class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-1 font-user">
+                                User</span>
+                        </a>
+                    </div>
+                    <a class="nav-link px-0 align-middle">
+                        <i class="fs-4 bi-people"></i> <span
+                            class="ms-1 d-none d-sm-inline"> Share</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-10">
+                <!-- ngx-monaco-editor -->
+                <!---->
+                <div class="flex-container">
+                    <div class="top-bar">
+                        <div class="btn-group" role="group"
+                            aria-label="Basic example" *ngIf="showEditor">
+                            <button type="button" class="btn btn-secondary" (click)="safeCode()">
+                                <i class="bi bi-floppy-fill"></i>
+                                Safe
+                            </button>
+                            <button type="button" class="btn btn-secondary" (click)="compileCode()">
+                                <i class="bi bi-arrow-right-circle-fill"></i>
+                                Compile
+                            </button>
+                        </div>
+
+                        <div class="btn-group float-end" role="group"
+                            aria-label="Basic example">
+                            <button type="button" class="btn btn-secondary" onclick="location.href='/projects'">
+                                <i class="bi bi-house"></i>
+                                Home
+                            </button>
+                            <button type="button" class="btn btn-secondary">
+                                <i class="bi bi-door-open-fill"></i>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                    <!--<div class="code-box ">--->
+                    <div *ngIf="showEditor" class="code-box ">
+                        <ngx-monaco-editor [options]="editorOptions"
+                            [(ngModel)]="code" class="h-100"></ngx-monaco-editor>
+                    </div>
+                    <!--</div>--->
+                    <div class="output-box" *ngIf="showEditor">
+                        <div class="output-content">
+                            {{ compileOutput }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Angular Bootstrap Modal for creating a file -->
+    <ng-template #newFileModal let-modal>
+        <div class="modal-header">
+            <h1 class="modal-title" id="newFileModalLabel">Create New
+                File</h1>
+            <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="text" class="form-control" [(ngModel)]="newFileName" placeholder="File Name">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="modal.dismiss()">Close</button>
+            <button type="button" class="btn btn-primary"
+                        (click)="createNewFile()">Create</button>
+        </div>
+    </ng-template>
+
+    <!-- Angular Bootstrap Modal for editing the file name -->
+    <ng-template #editFileModal let-modal>
+        <div class="modal-header">
+            <h1 class="modal-title" id="newFileModalLabel">Change File Name</h1>
+            <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="text" class="form-control" [(ngModel)]="newFileName" placeholder="File Name">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="modal.dismiss()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="editedFile && changeSourceFileName(editedFile.sourceFileId, newFileName)">
+                Rename
+            </button>
+        </div>
+    </ng-template>
+</body>
