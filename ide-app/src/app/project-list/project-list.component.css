@@ -1,0 +1,119 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    background-color: #dad7cb;
+    /* Set the background color to tum blue */
+}
+
+
+body.background {
+    background-color: #C2D7EF;
+    /* Set the desired black background color for the body */
+    color: #fff;
+    /* Set text color to white for better contrast */
+}
+
+.container {
+    background-color: #072140;
+    /* Set the container background color to white or any other color you prefer */
+    border-radius: 8px;
+    /* Add border-radius for a rounded container appearance */
+    padding: 20px;
+    /* Add padding for better visual appeal */
+}
+
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1{
+    color: #ffffff;
+    /* Set text color to tum blue */
+    font-size: 3rem;
+}
+
+.list-group-item,
+.form-control {
+    color: #072140;
+    /* Set text color to tum blue */
+}
+
+.btn {
+    color: #ffffff;
+    /* Set text color for buttons */
+    background-color: #072140;
+    /* Set background color for buttons to e37222 */
+    border-color: #072140;
+    /* Set border color for buttons to e37222 */
+}
+
+.btn:hover {
+    background-color: #9FBA36;
+    /* Set a slightly darker color on button hover */
+    border-color: #9FBA36;
+    /* Set a slightly darker border color on button hover */
+}
+
+.btn-rename {
+    color: #ffffff;
+    /* Set text color for buttons */
+    background-color: #6A757E;
+    /* Set background color for buttons to e37222 */
+    border-color: #6A757E;
+    /* Set border color for buttons to e37222 */
+}
+
+.create-button {
+    color: #ffffff;
+    /* Set text color for buttons */
+    background-color: #e37222;
+    /* Set background color for buttons to e37222 */
+    border-color: #e37222;
+    /* Set border color for buttons to e37222 */
+}
+
+.create-button:hover {
+    background-color: #c15d1f;
+    /* Set a slightly darker color on button hover */
+    border-color: #c15d1f;
+    /* Set a slightly darker border color on button hover */
+}
+
+.list-group-item {
+    background-color: #ffffff;
+    /* Set background color for list items */
+}
+
+.input-group {
+    margin-top: 20px;
+    /* Adjust margin for the input group */
+}
+
+.modal-header {
+    background-color: #072140;
+    /* Set background color for modal header */
+    color: #ffffff;
+    /* Set text color for modal header */
+}
+
+.modal-body,
+.modal-footer {
+    background-color: #ffffff;
+    /* Set background color for modal body and footer */
+}
+
+.modal-footer button {
+    color: #072140;
+    /* Set text color for modal footer buttons */
+}
+
+.modal-footer button.btn-primary {
+    background-color: #072140;
+    /* Set background color for the primary button in the modal footer */
+    color: #ffffff;
+    border-color: #072140;
+}
