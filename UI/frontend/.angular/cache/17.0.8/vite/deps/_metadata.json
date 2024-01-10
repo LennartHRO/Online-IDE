@@ -1,0 +1,86 @@
+{
+  "hash": "1efb6846",
+  "browserHash": "15139314",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "8834d9c7",
+      "needsInterop": false
+    },
+    "@angular/common/http": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "bd0b8824",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "213be5e0",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "b34f8f94",
+      "needsInterop": false
+    },
+    "@angular/material/slide-toggle": {
+      "src": "../../../../../node_modules/@angular/material/fesm2022/slide-toggle.mjs",
+      "file": "@angular_material_slide-toggle.js",
+      "fileHash": "11cd746a",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "f29c6a6f",
+      "needsInterop": false
+    },
+    "@angular/platform-browser/animations": {
+      "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/animations.mjs",
+      "file": "@angular_platform-browser_animations.js",
+      "fileHash": "6a3f46f9",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "b93d7e0e",
+      "needsInterop": false
+    },
+    "@ng-bootstrap/ng-bootstrap": {
+      "src": "../../../../../node_modules/@ng-bootstrap/ng-bootstrap/fesm2022/ng-bootstrap.mjs",
+      "file": "@ng-bootstrap_ng-bootstrap.js",
+      "fileHash": "a9bbe7b0",
+      "needsInterop": false
+    },
+    "ngx-monaco-editor-v2": {
+      "src": "../../../../../node_modules/ngx-monaco-editor-v2/fesm2022/ngx-monaco-editor-v2.mjs",
+      "file": "ngx-monaco-editor-v2.js",
+      "fileHash": "28450e9e",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-DKB5TWIP": {
+      "file": "chunk-DKB5TWIP.js"
+    },
+    "chunk-4KFFP5S2": {
+      "file": "chunk-4KFFP5S2.js"
+    },
+    "chunk-6O54F666": {
+      "file": "chunk-6O54F666.js"
+    },
+    "chunk-UM7DIYT7": {
+      "file": "chunk-UM7DIYT7.js"
+    },
+    "chunk-NYH6KOLS": {
+      "file": "chunk-NYH6KOLS.js"
+    },
+    "chunk-ZOWMAXBS": {
+      "file": "chunk-ZOWMAXBS.js"
+    }
+  }
+}
