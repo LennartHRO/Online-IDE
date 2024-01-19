@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CompileService {
-  url = 'http://localhost:8081/compile/';
+  url = 'http://localhost:8081/api/compile/';
 
   constructor(private http: HttpClient) {}
 

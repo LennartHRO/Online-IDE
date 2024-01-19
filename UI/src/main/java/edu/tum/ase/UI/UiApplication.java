@@ -10,22 +10,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @SpringBootApplication
 @RestController
 public class UiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(UiApplication.class, args);
+    }
 
-	@GetMapping("/api/authenticated")
+    @GetMapping("/authenticated")
     public boolean authenticated() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         if (authentication != null) {
             return authentication.getAuthorities().stream()
-                .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ANONYMOUS"));
+                    .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ANONYMOUS"));
         }
         return false;
     }

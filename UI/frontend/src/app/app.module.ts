@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,15 +11,20 @@ import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './services/auth.guard';
+import { Observable, catchError, of } from 'rxjs';
 
 
 const routes : Route[] = [
-  { path: 'projects', component: ProjectListComponent },
-  { path: 'editor/:id', component: EditorComponent },
-  { path: '**', component: ProjectListComponent }// redirectTo: 'projects'}
+  { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]},
+  { path: 'editor/:id', component: EditorComponent, canActivate: [AuthGuard]},
+  { path: '**', redirectTo: 'projects', canActivate: [AuthGuard]}
 ];
+// see https://stackoverflow.com/a/74813159
+function getCsrfToken(httpClient: HttpClient): () => Observable<any> {
+  return () => httpClient.get('/csrf').pipe(catchError((err) => of(null)));
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +43,12 @@ const routes : Route[] = [
     HttpClientModule
   ],
   exports: [RouterModule],
-  providers: [],
+  providers: [{
+      provide: APP_INITIALIZER,
+      useFactory: getCsrfToken,
+      deps: [HttpClient],
+      multi: true,
+    },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

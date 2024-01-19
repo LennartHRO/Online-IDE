@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   public checkAuthentication(): void {
-    this.httpClient.get<boolean>('/api/authenticated')
+    this.httpClient.get<boolean>('/authenticated')
     .subscribe((authenticated) => {
       this.authenticated$.next(authenticated);
       }, (err) => {
@@ -35,10 +35,16 @@ export class AuthService {
     window.location.href = `${window.location.origin}${LOGIN_PATH}`; // handled by backend
   }
   public logout(): void {
+    // log that the user is logging out
+    console.log('Logging out');
+
     this.httpClient.post(LOGOUT_PATH, {})
     .subscribe(() => {
-      this.router.navigateByUrl('/');
+      this.authenticated$.next(false);
       this.checkAuthentication();
+      this.router.navigate(['/login']);
+    }, (err) => {
+      console.log('Error logging out: ', err);
     });
   }
 }

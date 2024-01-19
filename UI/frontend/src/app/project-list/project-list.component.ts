@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Project } from '../project';
 import { Router } from '@angular/router';
 import { ProjectService } from '../services/projectService';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class ProjectListComponent {
 
   projects: Project[] = [];
 
-  constructor(private modalService: NgbModal, private router: Router) {
+  constructor(private modalService: NgbModal, private router: Router, public authService: AuthService) {
     this.projectService.getProjects().then((projects :  Project[]) => {
       this.projects = projects;
     })
@@ -65,6 +66,12 @@ export class ProjectListComponent {
     this.projectService.deleteProject(project.id).then(() => {
       this.projects = this.projects.filter((p) => p.id !== project.id);
     })
+  }
+
+  logout() {
+    this.authService.logout();
+    //reload the page
+    window.location.reload();    
   }
 
 }

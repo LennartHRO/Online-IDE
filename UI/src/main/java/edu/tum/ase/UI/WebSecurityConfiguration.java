@@ -15,32 +15,33 @@ public class WebSecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // See https://docs.spring.io/spring-security/reference/5.8/migration/servlet/exploits.html#_i_am_using_angularjs_or_another_javascript_framework
+        // See
+        // https://docs.spring.io/spring-security/reference/5.8/migration/servlet/exploits.html#_i_am_using_angularjs_or_another_javascript_framework
         XorCsrfTokenRequestAttributeHandler delegate = new XorCsrfTokenRequestAttributeHandler();
         delegate.setCsrfRequestAttributeName("_csrf");
         CsrfTokenRequestHandler requestHandler = delegate::handle;
 
-        return http.
-                authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/**").authenticated();
-                    auth.anyRequest().permitAll();
-                })
+        return http.authorizeHttpRequests(auth -> {
+            auth.requestMatchers("/api/**").authenticated();
+            auth.anyRequest().permitAll();
+        })
                 .oauth2Login(Customizer.withDefaults())
                 .logout(logout -> {
                     logout.logoutUrl("/logout");
                     logout.invalidateHttpSession(true);
                     logout.clearAuthentication(true);
                     logout.deleteCookies("JSESSIONID");
-                    logout.logoutSuccessHandler((httpServletRequest, httpServletResponse,authentication) -> {
-                                httpServletResponse.setStatus(HttpStatus.OK.value());
-                            }
-                    );
+                    logout.logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) -> {
+                        httpServletResponse.setStatus(HttpStatus.OK.value());
+                    });
                 })
 
                 .csrf(csrf -> {
                     csrf.csrfTokenRepository(csrfTokenRepository());
                     csrf.csrfTokenRequestHandler(requestHandler);
                 })
+    
+
                 .build();
     }
 
@@ -51,4 +52,3 @@ public class WebSecurityConfiguration {
         return repository;
     }
 }
-
