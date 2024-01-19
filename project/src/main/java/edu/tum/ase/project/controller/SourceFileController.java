@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/source-file")
+@RequestMapping("/api/source-file")
 @CrossOrigin(origins = "http://localhost:4200")
 public class SourceFileController {
     @Autowired

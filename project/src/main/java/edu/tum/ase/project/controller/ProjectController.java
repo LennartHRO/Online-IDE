@@ -10,7 +10,7 @@ import java.util.List;
 //In order to implement a full create, read, update, and delete (CRUD) interface for the Project and SourceFile entities,add the controller module with the according classes ProjectController.java and SourceFileController.java
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping("/api/project")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ProjectController {
 
