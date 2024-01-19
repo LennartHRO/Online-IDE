@@ -12,12 +12,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthGuard } from './services/auth.guard';
 
 
 const routes : Route[] = [
-  { path: 'projects', component: ProjectListComponent },
-  { path: 'editor/:id', component: EditorComponent },
-  { path: '**', redirectTo: 'projects' }
+  { path: 'projects', component: ProjectListComponent , canActivate: [AuthGuard]},
+  { path: 'editor/:id', component: EditorComponent , canActivate: [AuthGuard]},
+  { path: '**', redirectTo: 'projects', canActivate: [AuthGuard] }
 ];
 @NgModule({
   declarations: [

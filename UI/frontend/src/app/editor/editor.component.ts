@@ -6,6 +6,7 @@ import { SourceFile } from '../sourceFile';
 import { SourceFileService } from '../services/sourceFileService';
 import { CompileService } from '../services/compileService';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-editor',
@@ -40,7 +41,7 @@ export class EditorComponent {
   @ViewChild('newFileModal') newFileModal: any;
   @ViewChild('editFileModal') editFileModal: any;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, public authService: AuthService) {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
 
     this.projectService.getProject(this.projectId).then((project: Project) => {
