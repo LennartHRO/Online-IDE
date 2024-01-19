@@ -1,9 +1,9 @@
 import {
   NG_VALUE_ACCESSOR
-} from "./chunk-UM7DIYT7.js";
+} from "./chunk-5QZUIOYW.js";
 import {
   CommonModule
-} from "./chunk-NYH6KOLS.js";
+} from "./chunk-LYWEOCCW.js";
 import {
   Component,
   EventEmitter,
@@ -15,7 +15,6 @@ import {
   Output,
   ViewChild,
   forwardRef,
-  fromEvent,
   setClassMetadata,
   ɵɵInheritDefinitionFeature,
   ɵɵProvidersFeature,
@@ -27,7 +26,10 @@ import {
   ɵɵloadQuery,
   ɵɵqueryRefresh,
   ɵɵviewQuery
-} from "./chunk-ZOWMAXBS.js";
+} from "./chunk-LY46VLFS.js";
+import {
+  fromEvent
+} from "./chunk-V4QF72PL.js";
 
 // node_modules/ngx-monaco-editor-v2/fesm2022/ngx-monaco-editor-v2.mjs
 var _c0 = ["editorContainer"];

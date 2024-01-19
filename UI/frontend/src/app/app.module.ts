@@ -16,9 +16,9 @@ import { AuthGuard } from './services/auth.guard';
 
 
 const routes : Route[] = [
-  { path: 'projects', component: ProjectListComponent , canActivate: [AuthGuard]},
-  { path: 'editor/:id', component: EditorComponent , canActivate: [AuthGuard]},
-  { path: '**', redirectTo: 'projects', canActivate: [AuthGuard] }
+  { path: 'projects', component: ProjectListComponent },
+  { path: 'editor/:id', component: EditorComponent },
+  { path: '**', component: ProjectListComponent }// redirectTo: 'projects'}
 ];
 @NgModule({
   declarations: [
