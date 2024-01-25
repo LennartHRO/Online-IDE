@@ -7,7 +7,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -25,6 +27,12 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<SourceFile> sourceFiles = new ArrayList<>();
+
+
+    @ElementCollection
+    @CollectionTable(name = "project_project_users", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "userIds")
+    private Set<String> userIds = new HashSet<>();
 
     // ... additional members, often include @OneToMany mappings
 
@@ -51,5 +59,13 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<String> getUserIds() {
+        return userIds;
+    }
+
+    public void addUserIds(String userId) {
+        this.userIds.add(userId);
     }
 }
