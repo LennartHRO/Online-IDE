@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @RequestMapping("/api/dark-mode")
+//@RequestMapping("/dark-mode")
 @CrossOrigin(origins = "http://localhost:4200")
 public class DarkmodeApplication {
 
