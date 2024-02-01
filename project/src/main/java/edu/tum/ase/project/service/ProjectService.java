@@ -18,6 +18,7 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     public Project createProject(Project project) {
+        // TODO add own name to lrz list
         return projectRepository.save(project);
     }
 
@@ -56,6 +57,18 @@ public class ProjectService {
 
         // Save the updated project
         return projectRepository.save(existingProject);
+    }
+
+    public void shareProject(String projectId, String name) {
+        // Find the existing project by ID
+        Project existingProject = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid projectId: " + projectId));
+
+        // Update the existing project with the new values
+        existingProject.addUserIds(name);
+
+        // Save the updated project
+        projectRepository.save(existingProject);
     }
 
 }

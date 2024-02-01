@@ -7,6 +7,7 @@ import { SourceFileService } from '../services/sourceFileService';
 import { CompileService } from '../services/compileService';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import {ShareService} from "../services/shareService";
 
 @Component({
   selector: 'app-editor',
@@ -23,6 +24,7 @@ export class EditorComponent {
 
   projectService: ProjectService = inject(ProjectService);
   sourceFileService: SourceFileService = inject(SourceFileService);
+  shareService: ShareService = inject(ShareService)
   compileService: CompileService = inject(CompileService);
   route: ActivatedRoute = inject(ActivatedRoute);
 
@@ -37,9 +39,11 @@ export class EditorComponent {
   opendFileId: string | undefined = undefined;
   newFileName: string = '';
   editedFile: SourceFile | null = null;
+  sharedUser : string = '';
 
   @ViewChild('newFileModal') newFileModal: any;
   @ViewChild('editFileModal') editFileModal: any;
+  @ViewChild('shareModal') shareModal: any;
 
   constructor(private modalService: NgbModal, public authService: AuthService) {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
@@ -116,6 +120,11 @@ export class EditorComponent {
     this.modalService.open(this.editFileModal);
   }
 
+  openShareModal() {
+    this.sharedUser = '';
+    this.modalService.open(this.shareModal);
+  }
+
   async createNewFile() {
     if (this.newFileName.trim() !== '') {
       let newSourceFile: SourceFile = {
@@ -177,6 +186,16 @@ export class EditorComponent {
       }
     } catch (error) {
       console.error('Error compiling the source file', error);
+    }
+  }
+
+  shareWithUser(sharedUser: string) {
+    if (sharedUser.trim() !== '') {
+      this.shareService
+          .shareProject(this.projectId, sharedUser)
+          .then(() => {});
+      this.sharedUser = ''; // Reset the input field
+      this.modalService.dismissAll(); // Close the modal
     }
   }
 }

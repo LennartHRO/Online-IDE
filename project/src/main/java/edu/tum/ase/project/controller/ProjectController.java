@@ -42,6 +42,13 @@ public class ProjectController {
         return projectService.updateProject(projectId, updatedProject);
     }
 
+    @PostMapping("/share/{id}")
+    public void shareProject(@PathVariable("id") String projectId, @RequestBody  Project updatedProject){
+        projectService.shareProject(projectId, updatedProject.getName());
+    }
+
+
+
 
 
 }
