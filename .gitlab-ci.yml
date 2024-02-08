@@ -7,6 +7,7 @@ stages:
 
 # for debugging
 before_script:
+  - echo "hello"
   - mvn --version
 
 # build job
