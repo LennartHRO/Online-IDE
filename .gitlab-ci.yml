@@ -9,7 +9,7 @@ stages:
 # for debugging
 before_script:
   - echo "hello"
-  - tty
+  - $PATH
   - mvn --version
 
 # build job
