@@ -5,6 +5,10 @@ stages:
   - test
   - package
 
+# for debugging
+before_script:
+  - mvn --version
+
 # build job
 build:
   stage: build
