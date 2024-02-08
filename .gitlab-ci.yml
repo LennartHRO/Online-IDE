@@ -1,6 +1,6 @@
 #image: maven:3.9.6-jdk-8
 #image: busybox:latest
-image: maven:3.5.3-jdk-8
+image: 3.9.6-amazoncorretto
 
 stages:
   - build
