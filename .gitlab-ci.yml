@@ -9,7 +9,8 @@ stages:
 # for debugging
 before_script:
   - echo "hello"
-  - $PATH
+  - echo $PATH
+  - whoami
   - mvn --version
 
 # build job
