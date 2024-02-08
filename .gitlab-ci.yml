@@ -1,5 +1,5 @@
 #image: maven:3.9.6-jdk-8
-image: busybox:latest
+#image: busybox:latest
 
 stages:
   - build
@@ -9,6 +9,7 @@ stages:
 # for debugging
 before_script:
   - echo "hello"
+  - tty
   - mvn --version
 
 # build job
