@@ -12,6 +12,7 @@ before_script:
   - echo "hello"
   - echo $PATH
   - whoami
+  - maven --version
   - mvn --version
 
 # build job
