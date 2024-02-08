@@ -1,6 +1,4 @@
-#image: maven:3.9.6-jdk-8
-#image: busybox:latest
-image: maven:3.9.6-amazoncorretto
+image: maven:latest
 
 stages:
   - build
@@ -12,7 +10,6 @@ before_script:
   - echo "hello"
   - echo $PATH
   - whoami
-  - maven --version
   - mvn --version
 
 # build job
