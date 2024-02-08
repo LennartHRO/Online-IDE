@@ -10,6 +10,11 @@ public class SourceCode {
     public SourceCode() {
     }
 
+    public SourceCode(String name, String code) {
+        this.code = code;
+        this.fileName = name;
+    }
+
     public String getCode() {
         return code;
     }

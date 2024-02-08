@@ -1,13 +1,14 @@
 package edu.tum.ase.compiler;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CompilerApplicationTests {
+public class CompilerApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }
