@@ -1,5 +1,11 @@
 server:
   port: ${port:8080}
 spring:
+  application:
+    name: project-service
   profiles:
     active: prod,postgresdb #dev
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}

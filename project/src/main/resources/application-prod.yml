@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: project-prod-service
   jpa:
     properties:
       hibernate:
@@ -13,3 +15,9 @@ spring:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/my_db}
     username: ${DB_USERNAME:admin}
     password: ${DB_PASSWORD:test}
+#server:
+#  port: ${PORT:8081}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
