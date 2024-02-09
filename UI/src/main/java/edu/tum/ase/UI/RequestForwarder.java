@@ -33,7 +33,10 @@ public class RequestForwarder {
 
             // Set the response status, headers, and body
             response.setStatus(responseEntity.getStatusCodeValue());
-            response.setContentType(responseEntity.getHeaders().getContentType().toString());
+            MediaType contentType = responseEntity.getHeaders().getContentType();
+            if (contentType!=null) {
+                response.setContentType(contentType.toString());
+            }
             response.getOutputStream().write(responseEntity.getBody().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
