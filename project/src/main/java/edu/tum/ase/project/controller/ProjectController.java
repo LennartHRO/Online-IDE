@@ -2,6 +2,7 @@ package edu.tum.ase.project.controller;
 
 import edu.tum.ase.project.model.Project;
 import edu.tum.ase.project.service.ProjectService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,9 @@ public class ProjectController {
     private ProjectService projectService;
 
     @GetMapping("/")
-    public List<Project> getProjects() {
+    public List<Project> getProjects(HttpServletRequest request) {
+        String username = request.getHeader("Username");
+        System.out.println(username);
         return projectService.getProjects();
     }
 
