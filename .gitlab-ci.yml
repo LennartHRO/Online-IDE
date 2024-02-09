@@ -15,16 +15,17 @@ before_script:
 build:
   stage: build
   script: 
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./compiler
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./dark-mode
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./project
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./security
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./UI
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./compiler
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./dark-mode
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./project
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./security
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./UI
 
 # test Job
 test:
   stage: test
-  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn test ./compiler
+  script: 
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn test -f ./compiler
 
 # package Job
 package:
