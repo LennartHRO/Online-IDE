@@ -21,11 +21,12 @@ build:
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./security -q
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./UI -q
   artifacts:
-  - UI/target/
-  - compiler/target/
-  - dark-mode/target/generated-sources/
-  - project/target/
-  - security/target/
+    paths:
+    - UI/target/*
+    - compiler/target/*
+    - dark-mode/target/*
+    - project/target/*
+    - security/target/*
 
 # test Job
 test:
