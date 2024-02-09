@@ -61,8 +61,8 @@ public class Project {
         this.name = name;
     }
 
-    public Set<String> getUserIds() {
-        return userIds;
+    public boolean isAllowedToEdit(String username) {
+        return this.userIds.contains(username);
     }
 
     public void addUserIds(String userId) {

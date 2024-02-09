@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class ShareService {
-    url = 'http://localhost:8080/api/project/';
+    url = 'http://localhost:4200/api/project/';
 
     constructor(private http: HttpClient) { }
 

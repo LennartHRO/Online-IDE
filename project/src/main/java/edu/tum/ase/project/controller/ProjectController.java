@@ -21,33 +21,37 @@ public class ProjectController {
     @GetMapping("/")
     public List<Project> getProjects(HttpServletRequest request) {
         String username = request.getHeader("Username");
-        System.out.println(username);
-        return projectService.getProjects();
+        return projectService.getProjects(username);
     }
 
     @GetMapping("/{id}")
-    public Project getProject(@PathVariable("id") String projectId){
-        return projectService.getProject(projectId);
+    public Project getProject(@PathVariable("id") String projectId, HttpServletRequest request) {
+        String username = request.getHeader("Username");
+        return projectService.getProject(projectId, username);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable("id") String projectId){
-        projectService.deleteProject(projectId);
+    public void deleteProject(@PathVariable("id") String projectId, HttpServletRequest request) {
+        String username = request.getHeader("Username");
+        projectService.deleteProject(projectId, username);
     }
 
     @PostMapping("/")
-    public Project createProject(@RequestBody Project project){
-        return projectService.createProject(project);
+    public Project createProject(@RequestBody Project project, HttpServletRequest request) {
+        String username = request.getHeader("Username");
+        return projectService.createProject(project, username);
     }
 
     @PutMapping("/{id}")
-    public Project updateProject(@PathVariable("id") String projectId, @RequestBody Project updatedProject) {
-        return projectService.updateProject(projectId, updatedProject);
+    public Project updateProject(@PathVariable("id") String projectId, @RequestBody Project updatedProject, HttpServletRequest request) {
+        String username = request.getHeader("Username");
+        return projectService.updateProject(projectId, updatedProject, username);
     }
 
     @PostMapping("/share/{id}")
-    public void shareProject(@PathVariable("id") String projectId, @RequestBody  Project updatedProject){
-        projectService.shareProject(projectId, updatedProject.getName());
+    public void shareProject(@PathVariable("id") String projectId, @RequestBody  Project updatedProject, HttpServletRequest request) {
+        String username = request.getHeader("Username");
+        projectService.shareProject(projectId, updatedProject.getName(), username);
     }
 
 
