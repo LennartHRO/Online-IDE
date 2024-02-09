@@ -14,12 +14,17 @@ before_script:
 # build job
 build:
   stage: build
-  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile
+  script: 
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./compiler
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./dark-mode
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./project
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./security
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile ./UI
 
 # test Job
 test:
   stage: test
-  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn test
+  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn test ./compiler
 
 # package Job
 package:
