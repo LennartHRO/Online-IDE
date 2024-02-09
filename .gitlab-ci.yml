@@ -7,23 +7,23 @@ stages:
 
 # for debugging
 before_script:
-  - alias mvn=" /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn"
+  #- alias mvn="/usr/local/apache-maven/apache-maven-3.9.6/bin/mvn"
+  # unfortunatly this is not working
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn --version
-  - mvn --version
 
 # build job
 build:
   stage: build
-  script: mvn clean compile
+  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile
 
 # test Job
 test:
   stage: test
-  script: mvn test
+  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn test
 
 # package Job
 package:
   stage: package
-  script: mvn package
+  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package
   variables:
     MAVEN_OPTS: "-DskipTests=true"
