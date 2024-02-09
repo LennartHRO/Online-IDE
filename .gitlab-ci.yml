@@ -10,7 +10,7 @@ before_script:
   - echo "hello"
   - echo $PATH
   - whoami
-  - ls /usr/local/apache-maven
+  - ls /usr/local/apache-maven/apache-maven-3.9.6
   - mvn --version
 
 # build job
