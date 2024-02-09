@@ -7,7 +7,7 @@ stages:
 
 # for debugging
 before_script:
-  - alias mvn="/usr/local/apache-maven/apache-maven-3.9.6/bin/mvn"
+  - alias mvn = '/usr/local/apache-maven/apache-maven-3.9.6/bin/mvn'
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn --version
   - mvn --version
 
