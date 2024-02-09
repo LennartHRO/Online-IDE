@@ -1,4 +1,4 @@
-image: maven:latest
+# no image due to shell executor
 
 stages:
   - build
@@ -10,7 +10,7 @@ before_script:
   - echo "hello"
   - echo $PATH
   - whoami
-  - ls /usr/local/apache-maven/apache-maven-3.9.6
+  - ls -la /usr/local/apache-maven/apache-maven-3.9.6/bin
   - mvn --version
 
 # build job
