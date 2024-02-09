@@ -20,6 +20,7 @@ build:
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./project -q
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./security -q
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./UI -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./discoveryserver -q
   artifacts:
     paths:
     - UI/target/*
