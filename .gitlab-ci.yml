@@ -43,12 +43,21 @@ test:
 package:
   stage: package
   script: 
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./compiler
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./dark-mode
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./project
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./security
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./ui
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./service-registry
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./api-gateway
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./compiler -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./dark-mode -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./project -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./security -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./ui -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./service-registry -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./api-gateway -q
   variables:
     MAVEN_OPTS: "-DskipTests=true"
+  artifacts:
+    paths:
+    - ui/target/ui-0.0.1-SNAPSHOT.jar
+    - compiler/target/compiler-0.0.1-SNAPSHOT.jar
+    - dark-mode/target/darkmode-0.0.1-SNAPSHOT.jar
+    - project/target/project-0.0.1-SNAPSHOT.jar
+    - security/target/security-0.0.1-SNAPSHOT.jar
+    - service-registry/target/discoveryserver-0.0.1-SNAPSHOT.jar
+    - api-gateway/target/gateway-0.0.1-SNAPSHOT.jar
