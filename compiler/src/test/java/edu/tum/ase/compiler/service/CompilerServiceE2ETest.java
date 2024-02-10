@@ -1,68 +1,73 @@
 package edu.tum.ase.compiler.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.tum.ase.compiler.model.SourceCode;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class CompilerServiceE2ETest {
-
-    
-    @LocalServerPort
-    private int port;
+    private final String URL = "/api/compile/";
+    @Autowired
+    private MockMvc systemUnderTest;
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private ObjectMapper objectMapper;
 
-    @BeforeAll
-    public void setUp() {
-        // Ensure that the application is running
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/actuator/health", String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode(), "Application health check failed. Application may not be running properly.");
+    @Test
+    public void testCompilable() throws Exception {
+// given
+        SourceCode sourceCode = new SourceCode("test.c","#include<stdio.h>\n" +
+                "\n" +
+                "int main() {\n" +
+                "\tprintf(\"Hello World\\n\");\n" +
+                "\treturn 0;\n" +
+                "}");
+
+// when
+        ResultActions result = systemUnderTest.perform(post(URL)
+                .content(objectMapper.writeValueAsString(sourceCode))
+                .contentType(MediaType.APPLICATION_JSON));
+// then
+        result
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.compilable").value(true))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stdout").value(""))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stderr").value(""));
     }
 
     @Test
-    public void should_CompileJavaSourceCode_Successfully() {
-        // given
-        String javaCode = "public class Test {}";
+    public void testNotCompilable() throws Exception {
+// given
+        SourceCode sourceCode = new SourceCode("test.c","#include<stdio.h>\n" +
+                "\n" +
+                "int main() {\n" +
+                "\tprintf(\"Hello World\\n\");\n" +
+                "\treturn 0\n" +
+                "}");
 
-        // when
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/compile", javaCode, String.class);
-
-        // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        // Add assertions to validate the response body as per your API contract
+// when
+        ResultActions result = systemUnderTest.perform(post(URL)
+                .content(objectMapper.writeValueAsString(sourceCode))
+                .contentType(MediaType.APPLICATION_JSON));
+// then
+        result
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.compilable").value(false))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stdout").value(""))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stderr").isString());
     }
 
-    @Test
-    public void should_HandleCompilationFailure() {
-        // given
-        String javaCodeWithError = "public class TestWithError { public void methodWithError() { error; } }";
 
-        // when
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/compile", javaCodeWithError, String.class);
 
-        // then
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        // Add assertions to validate the response body as per your API contract
-    }
-
-    @AfterAll
-    public void tearDown() {
-        // Any cleanup logic, if needed
-    }    
 }
