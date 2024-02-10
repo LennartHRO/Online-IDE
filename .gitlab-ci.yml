@@ -35,7 +35,8 @@ build:
 # test Job
 test:
   stage: test
-  script: 
+  script:
+  - sudo apt install gcc -yq
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn test -f ./compiler
   allow_failure: true
 
