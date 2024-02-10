@@ -164,9 +164,18 @@ export class EditorComponent implements OnInit, OnDestroy{
       let newSourceFile: SourceFile = {
         project: this.project,
         fileName: this.newFileName,
-        sourceCode: 'print (Hello World))',
+        sourceCode: '',
         sourceFileId: '',
       };
+      if(this.newFileName?.endsWith('.c')) {
+        newSourceFile.sourceCode = '#include <stdio.h>\n\nint main() {\n   return 0;\n}';
+      }
+
+      if(this.newFileName?.endsWith('.java')) {
+        newSourceFile.sourceCode = 'class ' + this.newFileName.split('.')[0] + ' {\n  public static void main(String[] args) {\n      System.out.println("Hello, World!");\n   }\n}';
+      } 
+      
+
       this.sourceFileService
         .createSourceFile(newSourceFile)
         .then((sourceFile: SourceFile) => {
