@@ -54,10 +54,10 @@ package:
     MAVEN_OPTS: "-DskipTests=true"
   artifacts:
     paths:
-    - ui/target/*
-    - compiler/target/*
-    - dark-mode/target/*
-    - project/target/*
-    - security/target/*
-    - service-registry/target/*
-    - api-gateway/target/*
+    - ui/target/ui-0.0.1-SNAPSHOT.jar
+    - compiler/target/compiler-0.0.1-SNAPSHOT.jar
+    - dark-mode/target/darkmode-0.0.1-SNAPSHOT.jar
+    - project/target/project-0.0.1-SNAPSHOT.jar
+    - security/target/security-0.0.1-SNAPSHOT.jar
+    - service-registry/target/discoveryserver-0.0.1-SNAPSHOT.jar
+    - api-gateway/target/gateway-0.0.1-SNAPSHOT.jar
