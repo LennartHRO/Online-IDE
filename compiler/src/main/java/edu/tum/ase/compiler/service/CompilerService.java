@@ -15,23 +15,40 @@ public class CompilerService {
 
         String fileName = sourceCode.getFileName();
         String code = sourceCode.getCode();
+        Path tempFile = null;
 
+        /*
+        String currentDir = Paths.get("").toAbsolutePath().toString();
         String relativePath = "src/main/temp";
-        String filePath = Paths.get(System.getProperty("user.dir"), relativePath, fileName).toString();
+        //System.out.println("Current Dir : " + currentDir);
+        String filePath = Paths.get(currentDir, relativePath, fileName).toString();
+        //String filePath = Paths.get(System.getProperty("user.dir"), relativePath, fileName).toString();*/
 
         try {
-            Files.writeString(Paths.get(filePath), code);
+            //Files.writeString(Paths.get(filePath), code);
+
+            // Create a temporary file
+            tempFile = Files.createTempFile("compile-", fileName);
+
+            // Write the source code to the temporary file
+            Files.writeString(tempFile, code);
+
+            System.out.println("tempFile: " + fileName.toString());
+            System.out.println("tempFile: " + tempFile.toString());
+
+            String absolutePath = tempFile.toAbsolutePath().toString();
+            System.out.println("Absolute path of the temp file: " + absolutePath);
 
             Process process;
 
             if (fileName.endsWith(".java")) {
                 // Execute the compilation command
-                process = new ProcessBuilder("javac", filePath)
+                process = new ProcessBuilder("javac", tempFile.toString())
                         .redirectOutput(ProcessBuilder.Redirect.PIPE)
                         .redirectError(ProcessBuilder.Redirect.PIPE)
                         .start();
             } else if (fileName.endsWith(".c")) {
-                process = new ProcessBuilder("gcc", filePath)
+                process = new ProcessBuilder("gcc", tempFile.toString())
                         .redirectOutput(ProcessBuilder.Redirect.PIPE)
                         .redirectError(ProcessBuilder.Redirect.PIPE)
                         .start();
@@ -50,7 +67,7 @@ public class CompilerService {
             boolean compilable = (exitCode == 0);
 
             // Delete the temporary file
-            FileUtils.cleanDirectory(Paths.get(System.getProperty("user.dir"), relativePath).toFile());
+            //FileUtils.cleanDirectory(Paths.get(System.getProperty("user.dir"), relativePath).toFile());
 
             sourceCode.setCompilable(compilable);
             sourceCode.setStdout(stdout);
@@ -60,6 +77,16 @@ public class CompilerService {
         {
             sourceCode.setStderr(String.valueOf(e));
             sourceCode.setCompilable(false);
+        } finally {
+            // Ensure the temporary file is deleted
+            if (tempFile != null) {
+                try {
+                    Files.deleteIfExists(tempFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // Optionally log this error or handle it further
+                }
+            }
         }
 
         return sourceCode;
