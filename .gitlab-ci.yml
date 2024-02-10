@@ -9,6 +9,7 @@ stages:
 before_script:
   #- alias mvn="/usr/local/apache-maven/apache-maven-3.9.6/bin/mvn"
   # unfortunatly this is not working
+  - gcc --version
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn --version
 
 # build job
