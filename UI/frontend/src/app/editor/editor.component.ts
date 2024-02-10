@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, OnDestroy, OnInit  } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Project } from '../project';
 import { ProjectService } from '../services/projectService';
@@ -7,6 +7,7 @@ import { SourceFileService } from '../services/sourceFileService';
 import { CompileService } from '../services/compileService';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { DarkModeService } from '../services/darkmodeService';
 import {ShareService} from "../services/shareService";
 
 @Component({
@@ -14,8 +15,8 @@ import {ShareService} from "../services/shareService";
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css',
 })
-export class EditorComponent {
-  editorOptions = { theme: 'vs-dark', language: 'javascript' };
+export class EditorComponent implements OnInit, OnDestroy{
+  editorOptions = { theme: 'vs', language: 'javascript' }; // vs-dark
   code: string = 'function x() {\nconsole.log("Hello world!");\n}';
   compileOutput: string = '';
   toggleEditor: any;
@@ -45,7 +46,9 @@ export class EditorComponent {
   @ViewChild('editFileModal') editFileModal: any;
   @ViewChild('shareModal') shareModal: any;
 
-  constructor(private modalService: NgbModal, public authService: AuthService) {
+  private darkModeSubscription: any;
+
+  constructor(private modalService: NgbModal, public authService: AuthService, public darkModeService: DarkModeService) {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
 
     this.projectService.getProject(this.projectId).then((project: Project) => {
@@ -61,6 +64,18 @@ export class EditorComponent {
         );
         console.log(this.sourceFiles);
       });
+  }
+
+  ngOnInit(): void {
+    this.darkModeSubscription = this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.editorOptions = { ...this.editorOptions, theme: isDarkMode ? 'vs-dark' : 'vs' };
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.darkModeSubscription) {
+      this.darkModeSubscription.unsubscribe();
+    }
   }
 
   deleteSourceFile(id: string) {
@@ -95,6 +110,8 @@ export class EditorComponent {
     }
     this.newFileName = ''; // Reset the input field
     this.modalService.dismissAll(); // Close the modal
+    this.choseRightLanguage();
+
   }
 
   async openFile(sourceFileId: string): Promise<void> {
@@ -105,7 +122,9 @@ export class EditorComponent {
       this.compileOutput = '';
       this.code = sourceFile.sourceCode || ''; // Set the editor content to the source file's code
       this.opendFileId = sourceFileId; // Keep track of the currently opened file
+      this.editedFile = sourceFile;
       this.showEditor = true; // Show the editor if it's not already visible
+      this.choseRightLanguage();
     }
   }
 
@@ -118,6 +137,21 @@ export class EditorComponent {
     this.newFileName = editedFile.fileName || '';
     this.editedFile = editedFile;
     this.modalService.open(this.editFileModal);
+  }
+
+  choseRightLanguage() {
+    if (this.editedFile?.fileName?.endsWith('.java')) {
+      this.editorOptions = { ...this.editorOptions,  language: 'java'};
+    } else if (this.editedFile?.fileName?.endsWith('.py')) {  
+      this.editorOptions = { ...this.editorOptions,  language: 'python'};
+    } else if (this.editedFile?.fileName?.endsWith('.c')) {
+      this.editorOptions = { ...this.editorOptions,  language: 'c'};
+    } else if (this.editedFile?.fileName?.endsWith('.cpp')) {
+      this.editorOptions = { ...this.editorOptions,  language: 'cpp'};
+    } else {
+      this.editorOptions = { ...this.editorOptions,  language: 'javascript'};
+    }
+
   }
 
   openShareModal() {
@@ -140,6 +174,7 @@ export class EditorComponent {
         });
       this.newFileName = ''; // Reset the input field
       this.modalService.dismissAll(); // Close the modal
+      this.choseRightLanguage();
     }
   }
 
@@ -158,6 +193,7 @@ export class EditorComponent {
       console.error('Error saving the source file', error);
     }
   }
+
 
   async compileCode() {
     try {
