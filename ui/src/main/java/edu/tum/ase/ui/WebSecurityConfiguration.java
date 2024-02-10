@@ -1,4 +1,4 @@
-package edu.tum.ase.UI;
+package edu.tum.ase.ui;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

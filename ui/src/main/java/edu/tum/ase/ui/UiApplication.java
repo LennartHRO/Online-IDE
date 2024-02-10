@@ -1,4 +1,4 @@
-package edu.tum.ase.UI;
+package edu.tum.ase.ui;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.SpringApplication;

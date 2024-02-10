@@ -1,4 +1,4 @@
-package edu.tum.ase.UI;
+package edu.tum.ase.ui;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
