@@ -42,6 +42,13 @@ test:
 # package Job
 package:
   stage: package
-  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package
+  script: 
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./compiler -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./dark-mode -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./project -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./security -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./ui -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./service-registry -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./api-gateway -q
   variables:
     MAVEN_OPTS: "-DskipTests=true"
