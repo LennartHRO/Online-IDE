@@ -30,8 +30,13 @@ public class CompilerServiceIntegrationTest {
     @Test
     public void should_CompileJavaSourceCode_Successfully() throws IOException, InterruptedException {
         // given
-        String javaCode = "public class Test {}";
-        SourceCode sourceCode = new SourceCode("Test.java", javaCode);
+        String javaCode = "#include<stdio.h>\n" +
+                "\n" +
+                "int main() {\n" +
+                "\tprintf(\"Hello World\\n\");\n" +
+                "\treturn 0;\n" +
+                "}";
+        SourceCode sourceCode = new SourceCode("Test.c", javaCode);
 
         // mock Process and ProcessBuilder
         Process process = mock(Process.class);
@@ -53,8 +58,13 @@ public class CompilerServiceIntegrationTest {
     @Test
     public void should_HandleCompilationFailure() throws IOException, InterruptedException {
         // given
-        String javaCodeWithError = "public class TestWithError { public void methodWithError() { error; } }";
-        SourceCode sourceCode = new SourceCode("TestWithError.java", javaCodeWithError);
+        String javaCodeWithError = "#include<stdio.h>\n" +
+                "\n" +
+                "int main() {\n" +
+                "\tprintf(\"Hello World\\n\");\n" +
+                "\treturn 0\n" +
+                "}";
+        SourceCode sourceCode = new SourceCode("TestWithError.c", javaCodeWithError);
 
         // mock Process and ProcessBuilder
         Process process = mock(Process.class);
@@ -69,6 +79,6 @@ public class CompilerServiceIntegrationTest {
 
         // then
         assertFalse(compiledSourceCode.isCompilable());
-        assertTrue(compiledSourceCode.getStderr().contains("error: not a statement"));
+        assertTrue(compiledSourceCode.getStderr().contains("expected"));
     }
 }
