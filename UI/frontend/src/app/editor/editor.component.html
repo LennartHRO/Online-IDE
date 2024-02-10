@@ -67,8 +67,10 @@
                         </a>
                     </div>
                     <a class="nav-link px-0 align-middle">
-                        <i class="fs-4 bi-people"></i> <span
-                            class="ms-1 d-none d-sm-inline"> Share</span>
+                        <i class="fs-4 bi-people"></i>   <button type="button" class="btn btn-secondary" (click)="openShareModal()">
+
+                        Share
+                    </button>
                     </a>
                 </div>
             </div>
@@ -152,6 +154,25 @@
             <button type="button" class="btn btn-primary" (click)="modal.dismiss()">Close</button>
             <button type="button" class="btn btn-primary" (click)="editedFile && changeSourceFileName(editedFile.sourceFileId, newFileName)">
                 Rename
+            </button>
+        </div>
+    </ng-template>
+
+
+    <ng-template #shareModal let-modal>
+        <div class="modal-header">
+            <h1 class="modal-title" id="shareModalLabel">Enter LRZ User name</h1>
+            <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="text" class="form-control" [(ngModel)]="sharedUser" placeholder="LRZ">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="modal.dismiss()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="shareWithUser(sharedUser)">
+                Share
             </button>
         </div>
     </ng-template>
