@@ -68,8 +68,8 @@ package:
 publish:
   stage: publish
   image: docker:stable
-  services:
-  - docker:25.0.1-dind
+#  services:
+#  - docker:25.0.1-dind
   parallel:
     matrix:
       - SERVICE_NAME:
