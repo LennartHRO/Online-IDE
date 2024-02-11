@@ -36,7 +36,6 @@ build:
     - service-registry/target/*
     - api-gateway/target/*
     expire_in: 6h
-    keep_last: 5
 
 
 test:
