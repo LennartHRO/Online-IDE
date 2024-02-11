@@ -98,7 +98,7 @@ publish:
 deploy:
   stage: deploy
   script:
-  - scp -r docker-compose.yml gitlab-runner@34.159.207.253:~/
+  - scp -i ~/.ssh/otherVM -r docker-compose.yml gitlab-runner@34.159.207.253:~/
   - ssh 34.159.207.253 -i ~/.ssh/otherVM "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
   - ssh 34.159.207.253 -i ~/.ssh/otherVM "docker compose -f docker-compose.yaml pull && docker compose -f docker-compose.yaml up --force-recreate -d"
   #rules:
