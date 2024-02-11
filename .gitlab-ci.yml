@@ -100,6 +100,6 @@ deploy:
   script:
   - curl --version
   - ssh 34.159.207.253 -i ~/.ssh/otherVM
-  - docker compose up
+  - docker compose up -d
   #rules:
   #  - if: '$CI_COMMIT_BRANCH == "main"'
