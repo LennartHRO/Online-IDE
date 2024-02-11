@@ -81,7 +81,7 @@ publish:
         - api-gateway
   script:
   - cd ./$SERVICE_NAME
-  - docker login -u "$CI_REGISTRY_USER" --password "$CI_REGISTRY"
+  - docker login -u "$CI_REGISTRY_USER" --password "CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
   - docker pull $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest || true
   - docker build --tag $CI_REGISTRY_IMAGE/SERVICE_NAME:latest .
   - docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
