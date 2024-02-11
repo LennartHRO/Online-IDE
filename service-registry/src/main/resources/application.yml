@@ -1,6 +1,6 @@
 spring:
   application:
-    name: discovery-service
+    name: service-registry-service
 server:
   port: ${PORT:8761}
 eureka:
