@@ -5,7 +5,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./api-gateway-service
-    image: api-gateway-service:latest
+    image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/api-gateway:latest
     restart: on-failure
     #ports:
     #  - 8081:8081
@@ -16,7 +16,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./compiler-service
-    image: compiler-service:latest
+    image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/compiler:latest
     restart: on-failure
     #ports:
     #  - 8081:8081
@@ -27,7 +27,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./dark-mode-service
-    image: dark-mode-service:latest
+    image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/dark-mode:latest
     restart: on-failure
     #ports:
     #  - 8081:8081
@@ -38,7 +38,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./project-service
-    image: project-service:latest
+    image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/project:latest
     restart: on-failure
     #ports:
     #  - 8081:8081
@@ -50,7 +50,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./service-registry-service
-    image: service-registry-service:latest
+    image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/service-registry:latest
     restart: on-failure
     #ports:
     #  - 8081:8081
@@ -61,7 +61,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./ui-service
-    image: ui-service:latest
+    image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/ui:latest
     restart: on-failure
     #ports:
     #  - 8081:8081
