@@ -14,6 +14,7 @@ before_script:
   # unfortunatly this is not working
   - gcc --version
   - javac --version
+  - docker --version
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn --version
 
 
@@ -85,10 +86,10 @@ publish:
         - api-gateway
   script:
   - cd ./$SERVICE_NAME
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  - docker pull $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest || true
-  - docker build --tag $CI_REGISTRY_IMAGE/SERVICE_NAME:latest .
-  - docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
+  - sudo docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - sudo docker pull $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest || true
+  - sudo docker build --tag $CI_REGISTRY_IMAGE/SERVICE_NAME:latest .
+  - sudo docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
   - cd ..
   variables:
     DOCKER_DRIVER: overlay2

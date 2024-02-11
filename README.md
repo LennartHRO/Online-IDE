@@ -1,5 +1,8 @@
 # OnlineIDE
 
+34.32.44.92 -> GitlabRunner
+34.159.207.253 -> Deployment
+
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
