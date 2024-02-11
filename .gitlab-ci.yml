@@ -1,11 +1,11 @@
 # no image due to shell executor
 
 stages:
-  - deploy
   - build
   - test
   - package
   - publish
+  - deploy
 
 
 # for debugging
@@ -98,8 +98,6 @@ publish:
 deploy:
   stage: deploy
   script:
-  - ls -la /home/gitlab-runner/.ssh
-  #- ssh 34.159.207.253 -i /home/gitlab-runner/.ssh/otherVM ":"
   - scp -i /home/gitlab-runner/.ssh/otherVM -r docker-compose.yml domab@34.159.207.253:~/
   - ssh domab@34.159.207.253 -i /home/gitlab-runner/.ssh/otherVM "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
   - ssh domab@34.159.207.253 -i /home/gitlab-runner/.ssh/otherVM "docker compose -f docker-compose.yml pull && docker compose -f docker-compose.yml up --force-recreate -d"
