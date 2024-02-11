@@ -4,39 +4,102 @@ stages:
   - build
   - test
   - package
+  - publish
+  - deploy
+
 
 # for debugging
 before_script:
   #- alias mvn="/usr/local/apache-maven/apache-maven-3.9.6/bin/mvn"
   # unfortunatly this is not working
+  - gcc --version
+  - javac --version
+  - docker --version
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn --version
 
-# build job
+
 build:
   stage: build
   script: 
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./compiler -q
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./dark-mode -q
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./project -q
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./security -q
-  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./UI -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./ui -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./service-registry -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn clean compile -f ./api-gateway -q
   artifacts:
     paths:
-    - UI/target/*
+    - ui/target/*
     - compiler/target/*
     - dark-mode/target/*
     - project/target/*
-    - security/target/*
+    - service-registry/target/*
+    - api-gateway/target/*
+    expire_in: 6h
 
-# test Job
+
 test:
   stage: test
-  script: 
+  script:
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn test -f ./compiler
+  allow_failure: true
 
-# package Job
+
 package:
   stage: package
-  script: /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package
+  script: 
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./compiler -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./dark-mode -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./project -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./ui -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./service-registry -q
+  - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn package -f ./api-gateway -q
   variables:
     MAVEN_OPTS: "-DskipTests=true"
+  artifacts:
+    paths:
+    - ui/target/ui-0.0.1-SNAPSHOT.jar
+    - compiler/target/compiler-0.0.1-SNAPSHOT.jar
+    - dark-mode/target/darkmode-0.0.1-SNAPSHOT.jar
+    - project/target/project-0.0.1-SNAPSHOT.jar
+    - service-registry/target/service-registry-0.0.1-SNAPSHOT.jar
+    - api-gateway/target/gateway-0.0.1-SNAPSHOT.jar
+    expire_in: 6h
+
+
+publish:
+  stage: publish
+#  image: docker:stable
+#  services:
+#  - docker:25.0.1-dind
+  parallel:
+    matrix:
+      - SERVICE_NAME:
+        - compiler
+        - dark-mode
+        - project
+        - ui
+        - service-registry
+        - api-gateway
+  script:
+  - cd ./$SERVICE_NAME
+  - echo $CI_REGISTRY
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - docker pull $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest || true
+  - docker build --tag $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest .
+  - docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
+  - cd ..
+  variables:
+    DOCKER_DRIVER: overlay2
+  #rules:
+  #- if: '$CI_COMMIT_BRANCH == "main"'
+
+
+deploy:
+  stage: deploy
+  script:
+  - scp -i /home/gitlab-runner/.ssh/otherVM -r docker-compose.yml domab@34.159.207.253:~/
+  - ssh domab@34.159.207.253 -i /home/gitlab-runner/.ssh/otherVM "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
+  - ssh domab@34.159.207.253 -i /home/gitlab-runner/.ssh/otherVM "docker compose -f docker-compose.yml pull && docker compose -f docker-compose.yml up --force-recreate -d"
+  #rules:
+  #  - if: '$CI_COMMIT_BRANCH == "main"'

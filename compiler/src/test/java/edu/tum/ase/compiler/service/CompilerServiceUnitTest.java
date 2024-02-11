@@ -31,7 +31,12 @@ public class CompilerServiceUnitTest {
 
     @Test
     void compileWithJavaFile() throws Exception {
-        SourceCode sourceCode = new SourceCode("Test.java", "public class Test {}");
+        SourceCode sourceCode = new SourceCode("Test.c", "#include<stdio.h>\n" +
+                "\n" +
+                "int main() {\n" +
+                "\tprintf(\"Hello World\\n\");\n" +
+                "\treturn 0;\n" +
+                "}");
         sourceCode.setCompilable(true);
         Process process = mock(Process.class);
         when(processBuilder.start()).thenReturn(process);
@@ -46,11 +51,15 @@ public class CompilerServiceUnitTest {
 
     @Test
     void compileWithUnsupportedFileType() {
-        SourceCode sourceCode = new SourceCode("Test.txt", "Some text");
-        sourceCode.setCompilable(true);
+        SourceCode sourceCode = new SourceCode("test.c","#include<stdio.h>\n" +
+                "\n" +
+                "int main() {\n" +
+                "\tprintf(\"Hello World\\n\");\n" +
+                "\treturn 0\n" +
+                "}");
         SourceCode compiledSourceCode = compilerService.compile(sourceCode);
 
         assertFalse(compiledSourceCode.isCompilable());
-        assertEquals("java.lang.UnsupportedOperationException: Unsupported file type: Test.txt", compiledSourceCode.getStderr());
+        assertTrue(compiledSourceCode.getStderr().contains("expected ‘;’ before ‘}’"));
     }
 }

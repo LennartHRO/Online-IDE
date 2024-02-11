@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: project-service
+          uri: lb://backend-service
+          predicates:
+            - Path=/project/**
+          #filters:
+          #  - RemoveRequestHeader=Cookie,Set-Cookie
+        - id: ui-service
+          uri: lb://frontend-service
+          predicates:
+            - Path=/**
+          #filters:
+          #  - RemoveRequestHeader=Cookie,Set-Cookie
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+server:
+  port: ${PORT:8000}
