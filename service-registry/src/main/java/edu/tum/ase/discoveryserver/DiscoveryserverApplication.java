@@ -1,11 +1,11 @@
-package edu.tum.ase.service.registry;
+package edu.tum.ase.discoveryserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
-@EnableEurekaServer
+@EnableEurekaServer	// Enable eureka server
 public class DiscoveryserverApplication {
 
 	public static void main(String[] args) {
