@@ -63,8 +63,8 @@ services:
       context: ./ui-service
     image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/ui:latest
     restart: on-failure
-    #ports:
-    #  - 8081:8081
+    ports:
+      - 80:4200
     depends_on:
       - api-gateway-service
     
