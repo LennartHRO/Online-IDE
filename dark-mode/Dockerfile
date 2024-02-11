@@ -1,6 +1,3 @@
-FROM node:18-alpine
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --production
-COPY . .
-CMD ["node", "src/index.js"]
+FROM openjdk:8-jdk-alpine
+COPY target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
