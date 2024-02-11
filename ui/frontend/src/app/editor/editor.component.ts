@@ -8,6 +8,7 @@ import { CompileService } from '../services/compileService';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { DarkModeService } from '../services/darkmodeService';
+import {ShareService} from "../services/shareService";
 
 @Component({
   selector: 'app-editor',
@@ -24,6 +25,7 @@ export class EditorComponent implements OnInit, OnDestroy{
 
   projectService: ProjectService = inject(ProjectService);
   sourceFileService: SourceFileService = inject(SourceFileService);
+  shareService: ShareService = inject(ShareService)
   compileService: CompileService = inject(CompileService);
   route: ActivatedRoute = inject(ActivatedRoute);
 
@@ -38,9 +40,11 @@ export class EditorComponent implements OnInit, OnDestroy{
   opendFileId: string | undefined = undefined;
   newFileName: string = '';
   editedFile: SourceFile | null = null;
+  sharedUser : string = '';
 
   @ViewChild('newFileModal') newFileModal: any;
   @ViewChild('editFileModal') editFileModal: any;
+  @ViewChild('shareModal') shareModal: any;
 
   private darkModeSubscription: any;
 
@@ -150,14 +154,28 @@ export class EditorComponent implements OnInit, OnDestroy{
 
   }
 
+  openShareModal() {
+    this.sharedUser = '';
+    this.modalService.open(this.shareModal);
+  }
+
   async createNewFile() {
     if (this.newFileName.trim() !== '') {
       let newSourceFile: SourceFile = {
         project: this.project,
         fileName: this.newFileName,
-        sourceCode: 'print (Hello World))',
+        sourceCode: '',
         sourceFileId: '',
       };
+      if(this.newFileName?.endsWith('.c')) {
+        newSourceFile.sourceCode = '#include <stdio.h>\n\nint main() {\n   return 0;\n}';
+      }
+
+      if(this.newFileName?.endsWith('.java')) {
+        newSourceFile.sourceCode = 'class ' + this.newFileName.split('.')[0] + ' {\n  public static void main(String[] args) {\n      System.out.println("Hello, World!");\n   }\n}';
+      } 
+      
+
       this.sourceFileService
         .createSourceFile(newSourceFile)
         .then((sourceFile: SourceFile) => {
@@ -213,6 +231,16 @@ export class EditorComponent implements OnInit, OnDestroy{
       }
     } catch (error) {
       console.error('Error compiling the source file', error);
+    }
+  }
+
+  shareWithUser(sharedUser: string) {
+    if (sharedUser.trim() !== '') {
+      this.shareService
+          .shareProject(this.projectId, sharedUser)
+          .then(() => {});
+      this.sharedUser = ''; // Reset the input field
+      this.modalService.dismissAll(); // Close the modal
     }
   }
 }

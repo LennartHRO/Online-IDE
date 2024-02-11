@@ -1,30 +1,46 @@
 package edu.tum.ase.ui;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.*;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration {
 
+    private final RequestForwarder requestForwarder;
+
+    @Autowired
+    public WebSecurityConfiguration(RequestForwarder requestForwarder) {
+        this.requestForwarder = requestForwarder;
+    }
+
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // See
-        // https://docs.spring.io/spring-security/reference/5.8/migration/servlet/exploits.html#_i_am_using_angularjs_or_another_javascript_framework
         XorCsrfTokenRequestAttributeHandler delegate = new XorCsrfTokenRequestAttributeHandler();
         delegate.setCsrfRequestAttributeName("_csrf");
         CsrfTokenRequestHandler requestHandler = delegate::handle;
 
         return http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/api/**").authenticated();
-            auth.anyRequest().permitAll();
-        })
+                    auth.requestMatchers("/api/**").authenticated();
+                    auth.anyRequest().permitAll();
+                })
                 .oauth2Login(Customizer.withDefaults())
                 .logout(logout -> {
                     logout.logoutUrl("/logout");
@@ -40,8 +56,30 @@ public class WebSecurityConfiguration {
                     csrf.csrfTokenRepository(csrfTokenRepository());
                     csrf.csrfTokenRequestHandler(requestHandler);
                 })
-    
+                .addFilterBefore((request, response, chain) -> {
+                    HttpServletRequest httpRequest = (HttpServletRequest) request;
+                    String requestUri = httpRequest.getRequestURI();
 
+                    if (requestUri.contains("/api")) {
+                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+                        // Check if the request is authenticated and contains the user's details
+                        if (authentication != null && authentication.isAuthenticated()) {
+                            String username = authentication.getName(); // Get the username from the Authentication object
+                            try{
+                            // Create HttpHeaders and add username as a header
+                            requestForwarder.forward((HttpServletRequest) request,(HttpServletResponse) response, "http://localhost:8080"+requestUri, username);
+
+                            // Process the response if needed
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }}
+
+                    }
+                    else {
+                        chain.doFilter(request, response);
+                    }
+                }, SecurityContextPersistenceFilter.class)
                 .build();
     }
 

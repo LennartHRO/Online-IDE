@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SourceFileService {
@@ -20,24 +21,41 @@ public class SourceFileService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public List<SourceFile> getSourceFiles() {
-        return sourceFileRepository.findAll();
+    public List<SourceFile> getSourceFiles(String username) {
+            return sourceFileRepository.findAll().stream()
+                    .filter(file -> file.getProject().isAllowedToEdit(username))
+                    .collect(Collectors.toList());
     }
 
-    public SourceFile getSourceFile(String sourceFileId) {
-        return sourceFileRepository.findById(sourceFileId)
+    public SourceFile getSourceFile(String sourceFileId, String username) {
+        SourceFile file= sourceFileRepository.findById(sourceFileId)
                 .orElseThrow(() -> new RuntimeException("SourceFile not found with id: " + sourceFileId));
+
+        if(file.getProject().isAllowedToEdit(username)){
+            return file;
+        }else{
+            throw new RuntimeException("Not Allowed");
+        }
     }
 
-    public void deleteSourceFile(String sourceFileId) {
-        sourceFileRepository.deleteById(sourceFileId);
+    public void deleteSourceFile(String sourceFileId, String username) {
+        SourceFile file= sourceFileRepository.findById(sourceFileId)
+                .orElseThrow(() -> new RuntimeException("SourceFile not found with id: " + sourceFileId));
+
+        if(file.getProject().isAllowedToEdit(username)){
+            sourceFileRepository.deleteById(sourceFileId);
+        }else{
+            throw new RuntimeException("Not Allowed");
+        }
     }
 
-    public SourceFile createSourceFile(SourceFile sourceFile) {
+    public SourceFile createSourceFile(SourceFile sourceFile, String username) {
         // Fetch the associated project from the database
         Project project = projectRepository.findById(sourceFile.getProject().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Project not found"));
-
+        if (!project.isAllowedToEdit(username)){
+            throw new RuntimeException("Not allowed");
+        }
         // Set the associated project in the source file
         sourceFile.setProject(project);
 
@@ -45,8 +63,8 @@ public class SourceFileService {
         return sourceFileRepository.save(sourceFile);
     }
 
-    public SourceFile updateSourceFile(String sourceFileId, SourceFile updatedSourceFile) {
-        SourceFile existingSourceFile = getSourceFile(sourceFileId);
+    public SourceFile updateSourceFile(String sourceFileId, SourceFile updatedSourceFile, String username) {
+        SourceFile existingSourceFile = getSourceFile(sourceFileId, username);
 
         // Update the fields of the existing source file
         existingSourceFile.setFileName(updatedSourceFile.getFileName());
