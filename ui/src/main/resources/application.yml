@@ -18,7 +18,7 @@ spring:
             redirect-uri: http://34.159.207.253:4200/login/oauth2/code/gitlab
             authorization-grant-type: authorization_code
             client-id: ${OAUTH_CLIENT_ID:684058d0de7a06e09b9719e548eb91a804fe94a12be461ea9d4c2d0e057f7f2a}
-            client-secret: ${OAUTH_CLIENT_SECRET:gloas-4e6cd7610f09e14015ac6623e804d1202052a72ad9749ca71fdcfa7861991dba}
+            client-secret: ${OAUTH_CLIENT_SECRET:gloas-e4f4253f1e8e3843ed4cd5631bf4c2f3a99c595eca88c521e450da449faa48a7}
 eureka:
   client:
     serviceUrl:
