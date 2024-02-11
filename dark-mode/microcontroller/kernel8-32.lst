@@ -306,8 +306,8 @@ Disassembly of section .text:
     8460:	eb00ac3d 	bl	3355c <CString::CString()>
     8464:	e1a00009 	mov	r0, r9
     8468:	eb006005 	bl	20484 <CNetSubSystem::GetConfig()>
-    846c:	e30aa8c0 	movw	sl, #43200	; 0xa8c0
-    8470:	e341a3b5 	movt	sl, #5045	; 0x13b5
+    846c:	e309af22 	movw	sl, #40738	; 0x9f22
+    8470:	e34fadcf 	movt	sl, #64975	; 0xfdcf
     8474:	eb00800c 	bl	284ac <CNetConfig::GetIPAddress() const>
     8478:	e28d102c 	add	r1, sp, #44	; 0x2c
     847c:	e30a6a00 	movw	r6, #43520	; 0xaa00
