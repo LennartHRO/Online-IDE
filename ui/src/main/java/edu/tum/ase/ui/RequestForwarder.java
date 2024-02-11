@@ -1,4 +1,4 @@
-package edu.tum.ase.UI;
+package edu.tum.ase.ui;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
