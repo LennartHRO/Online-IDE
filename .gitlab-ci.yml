@@ -99,7 +99,7 @@ deploy:
   stage: deploy
   script:
   - curl --version
-  - ls -la ~/.
+  - ls -la ~/.ssh
   #- # with ssh to vm
   #- # pull new images from registry (via gitlab api)
   - docker compose up
