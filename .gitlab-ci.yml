@@ -35,7 +35,7 @@ build:
     - project/target/*
     - service-registry/target/*
     - api-gateway/target/*
-    expire_in: 12h
+    expire_in: 6h
     keep_last: 5
 
 
@@ -65,8 +65,7 @@ package:
     - project/target/project-0.0.1-SNAPSHOT.jar
     - service-registry/target/service-registry-0.0.1-SNAPSHOT.jar
     - api-gateway/target/gateway-0.0.1-SNAPSHOT.jar
-    expire_in: 12h
-    keep_last: 5
+    expire_in: 6h
 
 
 publish:
