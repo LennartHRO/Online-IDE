@@ -18,8 +18,8 @@ services:
       context: ./compiler-service
     image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/compiler:latest
     restart: on-failure
-    #ports:
-    #  - 8081:8081
+    ports:
+      - 8081:8081
     depends_on:
       - api-gateway-service
 
@@ -29,8 +29,8 @@ services:
       context: ./dark-mode-service
     image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/dark-mode:latest
     restart: on-failure
-    #ports:
-    #  - 8081:8081
+    ports:
+      - 8083:8083
     depends_on:
       - api-gateway-service
 
@@ -40,8 +40,8 @@ services:
       context: ./project-service
     image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/project:latest
     restart: on-failure
-    #ports:
-    #  - 8081:8081
+    ports:
+      - 8080:8080
     depends_on:
       - api-gateway-service
       - db
@@ -52,8 +52,8 @@ services:
       context: ./service-registry-service
     image: gitlab.lrz.de:5005/ase23-starnberger-serr/onlineide/service-registry:latest
     restart: on-failure
-    #ports:
-    #  - 8081:8081
+    ports:
+      - 8761:8761
     depends_on:
       - api-gateway-service
 
