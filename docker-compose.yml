@@ -1,0 +1,76 @@
+version: "4.2.0"
+services:
+
+  api-gateway-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./api-gateway-service
+    image: api-gateway-service:latest
+    restart: on-failure
+    #ports:
+    #  - 8081:8081
+    #depends_on:
+    #  - api-gateway-service
+
+  compiler-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./compiler-service
+    image: compiler-service:latest
+    restart: on-failure
+    #ports:
+    #  - 8081:8081
+    depends_on:
+      - api-gateway-service
+
+  dark-mode-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./dark-mode-service
+    image: dark-mode-service:latest
+    restart: on-failure
+    #ports:
+    #  - 8081:8081
+    depends_on:
+      - api-gateway-service
+
+  project-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./project-service
+    image: project-service:latest
+    restart: on-failure
+    #ports:
+    #  - 8081:8081
+    depends_on:
+      - api-gateway-service
+      - db
+
+  service-registry-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./service-registry-service
+    image: service-registry-service:latest
+    restart: on-failure
+    #ports:
+    #  - 8081:8081
+    depends_on:
+      - api-gateway-service
+
+  ui-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./ui-service
+    image: ui-service:latest
+    restart: on-failure
+    #ports:
+    #  - 8081:8081
+    depends_on:
+      - api-gateway-service
+    
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=project_db
+      - POSTGRES_PASSWORD=project_pw
+      - POSTGRES_USER=project_user

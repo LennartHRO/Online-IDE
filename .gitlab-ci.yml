@@ -1,11 +1,11 @@
 # no image due to shell executor
 
 stages:
-  - deploy
   - build
   - test
   - package
   - publish
+  - deploy
 
 
 # for debugging
@@ -99,9 +99,7 @@ deploy:
   stage: deploy
   script:
   - curl --version
-  - ls -la ~/.ssh
-  #- # with ssh to vm
-  #- # pull new images from registry (via gitlab api)
+  - ssh 34.159.207.253 -i ~/.ssh/otherVM
   - docker compose up
   #rules:
   #  - if: '$CI_COMMIT_BRANCH == "main"'
