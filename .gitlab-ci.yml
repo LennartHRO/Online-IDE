@@ -4,6 +4,9 @@ stages:
   - build
   - test
   - package
+  - publish
+  - deploy
+
 
 # for debugging
 before_script:
@@ -13,7 +16,7 @@ before_script:
   - javac --version
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn --version
 
-# build job
+
 build:
   stage: build
   script: 
@@ -34,14 +37,14 @@ build:
     - service-registry/target/*
     - api-gateway/target/*
 
-# test Job
+
 test:
   stage: test
   script:
   - /usr/local/apache-maven/apache-maven-3.9.6/bin/mvn test -f ./compiler
   allow_failure: true
 
-# package Job
+
 package:
   stage: package
   script: 
@@ -63,3 +66,42 @@ package:
     - security/target/security-0.0.1-SNAPSHOT.jar
     - service-registry/target/discoveryserver-0.0.1-SNAPSHOT.jar
     - api-gateway/target/gateway-0.0.1-SNAPSHOT.jar
+
+
+publish:
+  stage: publish
+  image: docker:stable
+  services:
+  - docker:25.0.1-dind
+  parallel:
+    matrix:
+      - SERVICE_NAME:
+        - compiler
+        - dark-mode
+        - security
+        - project
+        - ui
+        - service-registry
+        - api-gateway
+  script:
+  - cd ./$SERVICE_NAME
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - docker pull $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest || true
+  - docker build --tag $CI_REGISTRY_IMAGE/SERVICE_NAME:latest .
+  - docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
+  - cd ..
+  variables:
+    DOCKER_DRIVER: overlay2
+  #rules:
+  #- if: '$CI_COMMIT_BRANCH == "main"'
+
+
+deploy:
+  stage: deploy
+  script:
+  - curl -- version
+  #- # with ssh to vm
+  #- # pull new images from registry (via gitlab api)
+  - docker compose up
+  #rules:
+  #  - if: '$CI_COMMIT_BRANCH == "main"'
