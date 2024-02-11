@@ -1,11 +1,11 @@
 # no image due to shell executor
 
 stages:
+  - deploy
   - build
   - test
   - package
   - publish
-  - deploy
 
 
 # for debugging
@@ -35,6 +35,8 @@ build:
     - project/target/*
     - service-registry/target/*
     - api-gateway/target/*
+    expire_in: 12h
+    keep_last: 5
 
 
 test:
@@ -63,6 +65,8 @@ package:
     - project/target/project-0.0.1-SNAPSHOT.jar
     - service-registry/target/service-registry-0.0.1-SNAPSHOT.jar
     - api-gateway/target/gateway-0.0.1-SNAPSHOT.jar
+    expire_in: 12h
+    keep_last: 5
 
 
 publish:
@@ -96,7 +100,8 @@ publish:
 deploy:
   stage: deploy
   script:
-  - curl -- version
+  - curl --version
+  - ls -la /.ssh
   #- # with ssh to vm
   #- # pull new images from registry (via gitlab api)
   - docker compose up
