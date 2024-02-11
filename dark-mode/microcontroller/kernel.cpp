@@ -147,7 +147,8 @@ TShutdownMode CKernel::Run(void)
 	flag = false;
 
 	// IP Address of the server hosting the DarkmodeApplication
-	u8 ServerIPAddress[4] = {192, 168, 181, 19};
+	u8 ServerIPAddress[4] = {34, 159, 207, 253};
+	// u8 ServerIPAddress[4] = {192, 168, 181, 19};
 	CIPAddress ServerIP(ServerIPAddress);
 
 	u16 ServerPort = 8080;
@@ -169,7 +170,7 @@ TShutdownMode CKernel::Run(void)
 			CSocket *pSocket2 = new CSocket(&m_Net, IPPROTO_TCP);
 
 			// Define target IP address and port
-			u8 TargetIPArray2[] = {192, 168, 181, 19};
+			u8 TargetIPArray2[] = {34, 159, 207, 253};
 			CIPAddress ForeignIP2(TargetIPArray2);
 			u16 nForeignPort2 = 8084;
 
@@ -177,10 +178,10 @@ TShutdownMode CKernel::Run(void)
 			pSocket2->Connect(ForeignIP2, nForeignPort2);
 
 			// Send message
-			CString Request("GET http://192.168.181.19:8084/api/dark-mode/toggle HTTP/1.1\r\n");
+			CString Request("GET http://34.159.207.253:8084/api/dark-mode/toggle HTTP/1.1\r\n");
 
 			Request.Append("Host: ");
-			Request.Append("192.168.181.19:8084");
+			Request.Append("34.159.207.253:8084");
 			Request.Append("\r\n");
 
 			Request.Append("User-Agent: lennart\r\n");
