@@ -1,11 +1,11 @@
 # no image due to shell executor
 
 stages:
+  - publish
   - deploy
   - build
   - test
   - package
-  - publish
 
 
 # for debugging
