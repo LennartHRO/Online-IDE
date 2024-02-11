@@ -86,10 +86,10 @@ publish:
         - api-gateway
   script:
   - cd ./$SERVICE_NAME
-  - echo "$CI_REGISTRY_PASSWORD" | sudo docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
-  - sudo docker pull $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest || true
-  - sudo docker build --tag $CI_REGISTRY_IMAGE/SERVICE_NAME:latest .
-  - sudo docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
+  - docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+  - docker pull $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest || true
+  - docker build --tag $CI_REGISTRY_IMAGE/SERVICE_NAME:latest .
+  - docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
   - cd ..
   variables:
     DOCKER_DRIVER: overlay2
